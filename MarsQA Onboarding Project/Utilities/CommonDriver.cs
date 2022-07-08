@@ -1,5 +1,6 @@
 ﻿
 using MarsQA.Pages;
+using MarsQA_Onboarding_Project.Pages.ProfilePage;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -16,8 +17,6 @@ namespace MarsQA.Utilities
         public static IWebDriver driver;
         LoginPage loginpageObj = new LoginPage();
 
-
-
         [OneTimeSetUp]
         public void LoginActions()
         {
@@ -33,6 +32,9 @@ namespace MarsQA.Utilities
         [OneTimeTearDown]
         public void CloseTestRun()
         {
+            // Open chrome browser
+            driver = new ChromeDriver();
+
             driver.Quit();
         }
     }

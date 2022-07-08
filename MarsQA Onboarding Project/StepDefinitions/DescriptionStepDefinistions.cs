@@ -1,50 +1,50 @@
 ﻿using MarsQA.Pages;
 using MarsQA.Utilities;
+using MarsQA_Onboarding_Project.Pages.ProfilePage;
 using NUnit.Framework;
 using OpenQA.Selenium.Chrome;
-using System;
 using TechTalk.SpecFlow;
+using System;
+using OpenQA.Selenium;
 
 namespace MarsQA.StepDefinitions
 {
     [Binding]
     public class DescriptionStepDefinitions : CommonDriver
     {
+        // User profile page initialization and definition
+        ManageDescription ManageDescriptionObj = new ManageDescription();
+
+      
         [Given(@"I logged into portal")]
         public void GivenILoggedIntoPortal()
         {
             // Open chrome browser
             driver = new ChromeDriver();
 
-            // Login page object initialization and definition 
-            LoginPage loginpageObj = new LoginPage();
+            // User profile page initialization and definition
+            LoginPage LoginPageObj = new LoginPage();
 
-            // Login actions
-            loginpageObj.LoginSteps(driver);
+            // Add description action
+            LoginPageObj.LoginSteps(driver);
         }
 
         [When(@"I add description on profile")]
         public void WhenIAddDescriptionOnProfile()
         {
-            // User profile page initialization and definition
-            ProfilePage ProfilePageObj = new ProfilePage();
-
             // Add description action
-            ProfilePageObj.AddDescription(driver);
+            ManageDescriptionObj.AddDescription(driver);
         }
 
         [Then(@"The description should be added successfully")]
         public void ThenTheDescriptionShouldBeAddedSuccessfully()
         {
-            // User profile page initialization and definition
-            ProfilePage ProfilePageObj = new ProfilePage();
-
             // Assert the newly added description on profile
-            string newDescription = ProfilePageObj.GetNewDescription(driver);
+            string newDescription = ManageDescriptionObj.GetNewDescription(driver);
             Assert.That(newDescription == "I'm a seller", "Actual record and expected record do not match.");
 
             // Assert the pop-up alart message
-            string newDescriptionAlertmMssage = ProfilePageObj.GetNewDescriptionAlertMessage(driver);
+            string newDescriptionAlertmMssage = ManageDescriptionObj.GetNewDescriptionAlertMessage(driver);
             Assert.That(newDescriptionAlertmMssage == "Description has been saved successfully", "Description has not been added.");
         }
 
@@ -52,24 +52,19 @@ namespace MarsQA.StepDefinitions
 
         public void WhenIEditOnTheExistingDescriptionRecord(string p0)
         {
-            // User profile page initialization and definition
-            ProfilePage ProfilePageObj = new ProfilePage();
-
             // Edit description action
-            ProfilePageObj.EditDescription(driver, p0);
+            ManageDescriptionObj.EditDescription(driver, p0);
         }
 
         [Then(@"The record should have the updated '([^']*)'")]
         public void ThenTheRecordShouldHaveTheUpdated(string p0)
         {
-            ProfilePage ProfilePageObj = new ProfilePage();
-
             // Assert the edited description on profile
-            string editedDescription = ProfilePageObj.GetEditedDescription(driver);
+            string editedDescription = ManageDescriptionObj.GetEditedDescription(driver);
             Assert.That(editedDescription == p0, "Actual record and expected record do not match.");
 
             // Assert the pop-up alert message
-            string editedDescriptionAlertmMssage = ProfilePageObj.GetEditedDescriptionAlertMessage(driver);
+            string editedDescriptionAlertmMssage = ManageDescriptionObj.GetEditedDescriptionAlertMessage(driver);
             Assert.That(editedDescriptionAlertmMssage == "Description has been saved successfully", "Description has not been edited.");
         }
 
@@ -78,24 +73,21 @@ namespace MarsQA.StepDefinitions
         [When(@"I delete description on profile")]
         public void WhenIDeleteDescriptionOnProfile()
         {
-            ProfilePage ProfilePageObj = new ProfilePage();
-
             // Delete description action
-            ProfilePageObj.DeleteDescription(driver);
+            ManageDescriptionObj.DeleteDescription(driver);
         }
 
         [Then(@"The descrption should be deleted successfully")]
         public void ThenTheDescrptionShouldBeDeletedSuccessfully()
         {
-            ProfilePage ProfilePageObj = new ProfilePage();
-
-            string deletedDescription = ProfilePageObj.GetDeletedDescription(driver);
+            string deletedDescription = ManageDescriptionObj.GetDeletedDescription(driver);
             Assert.That(deletedDescription == "N/A", "Description has not been deleted.");
 
 
             // Assert the pop-up alert message
-            string deletedDescriptionAlertmMssage = ProfilePageObj.GetDeletedDescriptionAlertMessage(driver);
+            string deletedDescriptionAlertmMssage = ManageDescriptionObj.GetDeletedDescriptionAlertMessage(driver);
             Assert.That(deletedDescriptionAlertmMssage == "Description has been saved successfully", "Description has not been deleted.");
         }
+
     }
 }
